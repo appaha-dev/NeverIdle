@@ -73,7 +73,7 @@ jobs:
         working-directory: ./test
         run: |
           set -e
-          bash ./test/ubuntu/install.sh #>/dev/null 2>&1
+          bash ./ubuntu/install.sh #>/dev/null 2>&1
 
       # GitHub公式の認証トークン（github.token）を使ってGHCRに自動ログイン
       - name: Login to GHCR
@@ -124,4 +124,4 @@ jobs:
           V_HOST: ${{ secrets.V_HOST12 }}  
         run: |
           set -e
-          bash ./test/ubuntu/start.sh #>/dev/null 2>&1
+          bash ./ubuntu/start.sh #>/dev/null 2>&1
