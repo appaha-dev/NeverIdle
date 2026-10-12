@@ -51,12 +51,12 @@ jobs:
           keep_minimum_runs: 0
           delete_run_by_conclusion_pattern: all
 
-      - name: Checkout
+      - name: Checkout1
         uses: actions/checkout@v4
         with:
           fetch-depth: 0 # 正確な git describe のために全履歴を取得
 
-      - name: Checkout
+      - name: Checkout2
         uses: actions/checkout@v4
         with:
           repository: ${{ secrets.REPO }} 
