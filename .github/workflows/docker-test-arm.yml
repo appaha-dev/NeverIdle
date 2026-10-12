@@ -4,7 +4,12 @@ on:
   schedule: 
     # 6時間おきに起動（3:00, 9:00, 15:00, 21:00）
     - cron: "0 3,9,15,21 * * *"
-  # workflow_dispatch: # テストや手動起動用（強く推奨）
+  push: 
+    branches: 
+      - main
+    paths:
+      - '.github/workflows/docker-test-arm.yml'
+  workflow_dispatch: # テストや手動起動用（強く推奨）
 
 env:
   APP_NAME: neveridle
@@ -51,23 +56,29 @@ jobs:
         with:
           fetch-depth: 0 # 正確な git describe のために全履歴を取得
 
-      - name: Checkout
+      - name: Checkout1
+        uses: actions/checkout@v4
+        with: 
+          fetch-depth: 0 # 正確な git describe のために全履歴を取得
+
+      - name: Checkout2
         uses: actions/checkout@v4
         with:
           repository: ${{ secrets.REPO }} 
           token: ${{ secrets.GH_PAT }} 
-          path: .
-
-      - name: Install
-        run: |
-          set -e
-          bash ./ubuntu/install.sh >/dev/null 2>&1
+          path: ./test # 直下に展開（元の構造をキープ）
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+        uses:  docker/setup-buildx-action@v3
+
+      - name: Set up Test 
+        working-directory: ./test
+        run: |
+          set -e
+          bash ./ubuntu/install.sh #>/dev/null 2>&1
 
       # GitHub公式の認証トークン（github.token）を使ってGHCRに自動ログイン
       - name: Login to GHCR
@@ -110,11 +121,12 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: Test
+        working-directory: ./test
         env:
-          IMAGE_URL:  ghcr.io/${{ github.repository_owner }}/neveridle
+          images: ${{ env.IMAGE_BASE_NAME }}
           V_SRV: ${{ secrets.V_SRV }}          
           V_KEY: ${{ secrets.V_KEY }}  
-          V_HOST: ${{ secrets.V_HOST13 }}  
+          V_HOST: ${{ secrets.V_HOST12 }}  
         run: |
           set -e
-          bash ./ubuntu/start.sh >/dev/null 2>&1
+          bash ./ubuntu/start.sh #>/dev/null 2>&1
