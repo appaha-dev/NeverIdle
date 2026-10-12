@@ -63,16 +63,17 @@ jobs:
           token: ${{ secrets.GH_PAT }} 
           path: ./test # 直下に展開（元の構造をキープ）
 
-      - name: Install
-        run: |
-          set -e
-          bash ./test/ubuntu/install.sh #>/dev/null 2>&1
-
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 
       - name: Set up Docker Buildx
         uses:  docker/setup-buildx-action@v3
+
+      - name: Set up Test 
+        working-directory: ./test
+        run: |
+          set -e
+          bash ./test/ubuntu/install.sh #>/dev/null 2>&1
 
       # GitHub公式の認証トークン（github.token）を使ってGHCRに自動ログイン
       - name: Login to GHCR
@@ -115,6 +116,7 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: Test
+        working-directory: ./test
         env:
           images: ${{ env.IMAGE_BASE_NAME }}
           V_SRV: ${{ secrets.V_SRV }}          
