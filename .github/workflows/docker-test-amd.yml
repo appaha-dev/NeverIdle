@@ -54,7 +54,6 @@ jobs:
       - name: Checkout1
         uses: actions/checkout@v4
         with:
-          path: main  # 「main」フォルダにチェックアウト
           fetch-depth: 0 # 正確な git describe のために全履歴を取得
 
       - name: Checkout2
@@ -62,19 +61,18 @@ jobs:
         with:
           repository: ${{ secrets.REPO }} 
           token: ${{ secrets.GH_PAT }} 
-          path: . # 直下に展開（元の構造をキープ）
+          path: ./test # 直下に展開（元の構造をキープ）
 
       - name: Install
-        working-directory: ./main
         run: |
           set -e
-          bash ./ubuntu/install.sh #>/dev/null 2>&1
+          bash ./test/ubuntu/install.sh #>/dev/null 2>&1
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+        uses:  docker/setup-buildx-action@v3
 
       # GitHub公式の認証トークン（github.token）を使ってGHCRに自動ログイン
       - name: Login to GHCR
@@ -124,4 +122,4 @@ jobs:
           V_HOST: ${{ secrets.V_HOST12 }}  
         run: |
           set -e
-          bash ./ubuntu/start.sh >/dev/null 2>&1
+          bash ./test/ubuntu/start.sh #>/dev/null 2>&1
