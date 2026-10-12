@@ -1,8 +1,8 @@
 # NeverIdle
 
-*我喜欢你，但别删我机，好么？*
+*orgin https://github.com/layou233/NeverIdle*
 
-本程序随手写的，下面介绍也是随心写的，不喜勿碰。
+*reference https://github.com/lazzman/NeverIdle*
 
 ## 一键脚本【小白推荐】
 
