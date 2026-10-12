@@ -54,6 +54,7 @@ jobs:
       - name: Checkout1
         uses: actions/checkout@v4
         with:
+          path: main  # 「main」フォルダにチェックアウト
           fetch-depth: 0 # 正確な git describe のために全履歴を取得
 
       - name: Checkout2
@@ -61,9 +62,10 @@ jobs:
         with:
           repository: ${{ secrets.REPO }} 
           token: ${{ secrets.GH_PAT }} 
-          path: .
+          path: . # 直下に展開（元の構造をキープ）
 
       - name: Install
+        working-directory: ./main
         run: |
           set -e
           bash ./ubuntu/install.sh #>/dev/null 2>&1
