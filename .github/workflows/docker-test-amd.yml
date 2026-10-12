@@ -97,9 +97,9 @@ jobs:
           build-args: |
             APP_NAME=${{ env.APP_NAME }}
             APP_VERSION=${{ env.APP_VERSION }}
-          # メタデータアクションが生成したタグとラベルを適用
-          tags: ${{ id.meta.outputs.tags }}
-          labels: ${{ id.meta.outputs.labels }}
+          # ⭕ メタデータアクションが生成したタグとラベルを正しく適用
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
           # 🚀 ビルド高速化のためにGHAキャッシュを有効化
           cache-from: type=gha
           cache-to: type=gha,mode=max
