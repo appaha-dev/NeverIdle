@@ -42,4 +42,4 @@ wget -O NeverIdle.sh "https://raw.githubusercontents.com/lazzman/NeverIdle/maste
 
 ## docker
 
-https://hub.docker.com/r/nodcat/neveridle
+https://ghcr.io/appaha-dev/neveridle
