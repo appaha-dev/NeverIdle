@@ -6,7 +6,7 @@ on:
     - cron: "0 0,6,12,18 * * *"
   push: 
     branches: 
-      - main
+      - main 
     paths:
       - '.github/workflows/docker-test-amd.yml'
   workflow_dispatch: # テストや手動起動用（強く推奨）
